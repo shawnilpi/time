@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Current Time and Date</title>
+  <!-- Load Montserrat from Google Fonts: Bold for title, Regular for body -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Basic Reset */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* Base body styles */
+    body {
+      background-color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      color: #36454F; /* Medium charcoal */
+      padding: 10px;
+    }
+    
+    /* Widget container: white box with a uniform thin border */
+    #timeDateWidget {
+      max-width: 600px;
+      width: 100%;
+      margin: 10px auto;
+      padding: 10px 15px;
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      text-align: left;
+    }
+    
+    /* Title styling: Montserrat Bold, 16px */
+    .widget-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    /* Body styling: Montserrat Regular, 12px */
+    .widget-body {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div id="timeDateWidget">
+    <div class="widget-title">Current Time and Date</div>
+    <div class="widget-body">
+      <div id="currentDate"></div>
+      <div id="currentTime"></div>
+    </div>
+  </div>
+  
+  <script>
+    function updateTimeDate() {
+      const now = new Date();
+      // Format the date: weekday, month, day, and year
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const dateStr = now.toLocaleDateString(undefined, options);
+      
+      // Format the time: HH:MM:SS am/pm
+      let hours = now.getHours();
+      const ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      if (hours === 0) hours = 12;
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const timeStr =
+        (hours < 10 ? '0' + hours : hours) + ':' +
+        (minutes < 10 ? '0' + minutes : minutes) + ':' +
+        (seconds < 10 ? '0' + seconds : seconds) + ' ' + ampm;
+      
+      document.getElementById('currentDate').textContent = dateStr;
+      document.getElementById('currentTime').textContent = timeStr;
+    }
+    
+    // Update immediately and then every second.
+    updateTimeDate();
+    setInterval(updateTimeDate, 1000);
+  </script>
+</body>
+</html>
